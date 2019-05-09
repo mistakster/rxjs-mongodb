@@ -1,0 +1,42 @@
+{
+  "name": "@mistakster/rxjs-mongodb",
+  "version": "1.0.0",
+  "description": "A helper which creates an Observable from MongoDB connection",
+  "main": "lib/connect.js",
+  "scripts": {
+    "test": "node $NODE_DEBUG_OPTION -r dotenv/config ./test/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mistakster/rxjs-mongodb.git"
+  },
+  "keywords": [
+    "rxjs",
+    "mongodb"
+  ],
+  "author": {
+    "name": "Vladimir Kuznetsov",
+    "email": "mistakster@gmail.com",
+    "url": "https://noteskeeper.ru"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mistakster/rxjs-mongodb/issues"
+  },
+  "homepage": "https://github.com/mistakster/rxjs-mongodb#readme",
+  "engines": {
+    "node": ">=8.10"
+  },
+  "peerDependencies": {
+    "mongodb": "^3.0.0",
+    "rxjs": "^6.0.0"
+  },
+  "devDependencies": {
+    "dotenv": "8.0.0",
+    "mongodb": "3.2.4",
+    "rxjs": "6.5.1"
+  },
+  "dependencies": {
+    "rxjs-spy": "7.5.1"
+  }
+}
