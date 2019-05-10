@@ -1,0 +1,11 @@
+# IDE files
+.editorconfig
+.env
+.idea
+*.iml
+
+# Test files
+test
+
+# CI Configuration
+.travis.yml
