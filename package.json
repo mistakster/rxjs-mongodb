@@ -34,9 +34,10 @@
   "devDependencies": {
     "dotenv": "8.0.0",
     "mongodb": "3.2.4",
-    "rxjs": "6.5.1"
+    "rxjs": "6.5.1",
+    "rxjs-spy": "^7.5.1"
   },
   "dependencies": {
-    "rxjs-spy": "7.5.1"
+    "debug": "4.1.1"
   }
 }

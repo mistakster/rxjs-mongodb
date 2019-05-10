@@ -1,4 +1,4 @@
-const { merge } = require('rxjs');
+const { merge, NEVER } = require('rxjs');
 const { map, share, flatMap } = require('rxjs/operators');
 const { create } = require('rxjs-spy');
 const { tag } = require('rxjs-spy/operators');
@@ -25,7 +25,7 @@ const MONGODB_OPTS = {
 
 const spy = create();
 
-spy.log(/^test:/);
+// spy.log(/^test:/);
 
 const client$ = connectMongoDb(MONGODB_URL, MONGODB_OPTS)
   .pipe(
@@ -35,23 +35,22 @@ const client$ = connectMongoDb(MONGODB_URL, MONGODB_OPTS)
 
 const db$ = client$
   .pipe(
-    map(client => client.db(MONGODB_DATABASE)),
-    tag('test:database')
-  );
-
-const logic$ = client$
-  .pipe(
-    flatMap(client => {
+    map(client => ({
+      db: client.db(MONGODB_DATABASE),
+      client
+    })),
+    tag('test:database'),
+    flatMap(({ client }) => {
       return new Promise(resolve => {
         setTimeout(() => {
-          resolve(client.close());
+          client.close();
         }, 5000);
       });
     }),
     tag('test:logic')
   );
 
-merge(db$, logic$)
+db$
   .pipe(
     tag('test:merged')
   )
