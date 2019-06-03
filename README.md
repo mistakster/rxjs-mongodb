@@ -30,3 +30,7 @@ data$.subscribe(datum => {
   console.log(datum._id);
 });
 ```
+
+## License
+
+MIT
