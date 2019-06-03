@@ -1,5 +1,5 @@
-const { from, timer } = require('rxjs');
-const { map, mergeAll, takeUntil } = require('rxjs/operators');
+const { Subject } = require('rxjs');
+const { map, mergeAll, takeUntil, finalize } = require('rxjs/operators');
 const { streamToRx } = require('rxjs-stream');
 const connectMongoDb = require('../lib/connect');
 
@@ -24,14 +24,21 @@ const MONGODB_OPTS = {
 
 const client$ = connectMongoDb(MONGODB_URL, MONGODB_OPTS);
 
+const stop$ = new Subject();
+
 const data$ = client$.pipe(
   map(client => client.db(MONGODB_DATABASE)),
   map(db => db.collection('diagrams')),
   map(items => items.find({})),
   map(cursor => cursor.transformStream()),
-  map(streamToRx),
+  map(stream => streamToRx(stream).pipe(
+    finalize(() => {
+      stop$.next(true);
+      stop$.complete();
+    })
+  )),
   mergeAll(),
-  takeUntil(timer(5000))
+  takeUntil(stop$)
 );
 
 data$.subscribe(datum => {
