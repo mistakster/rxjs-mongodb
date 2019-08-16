@@ -1,6 +1,7 @@
 const { Subject } = require('rxjs');
 const { map, mergeAll, takeUntil, finalize } = require('rxjs/operators');
 const { streamToRx } = require('rxjs-stream');
+const { MongoClient } = require('mongodb');
 const connectMongoDb = require('../lib/connect');
 
 const {
@@ -18,11 +19,12 @@ const MONGODB_OPTS = {
   ssl: true,
   connectWithNoPrimary: false,
   useNewUrlParser: true,
+  useUnifiedTopology: true,
   bufferMaxEntries: 0,
   connectTimeoutMS: 5000
 };
 
-const client$ = connectMongoDb(MONGODB_URL, MONGODB_OPTS);
+const client$ = connectMongoDb(new MongoClient(MONGODB_URL, MONGODB_OPTS));
 
 const stop$ = new Subject();
 
@@ -41,6 +43,11 @@ const data$ = client$.pipe(
   takeUntil(stop$)
 );
 
-data$.subscribe(datum => {
-  console.log(datum._id);
+data$.subscribe({
+  next(datum) {
+    console.log(datum._id);
+  },
+  complete() {
+    console.log('finished');
+  }
 });

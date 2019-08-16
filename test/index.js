@@ -2,6 +2,7 @@ const { merge, NEVER } = require('rxjs');
 const { map, share, mergeMap, take } = require('rxjs/operators');
 const { create } = require('rxjs-spy');
 const { tag } = require('rxjs-spy/operators');
+const { MongoClient } = require('mongodb');
 const connectMongoDb = require('../lib/connect');
 
 const {
@@ -19,6 +20,7 @@ const MONGODB_OPTS = {
   ssl: true,
   connectWithNoPrimary: true,
   useNewUrlParser: true,
+  useUnifiedTopology: true,
   bufferMaxEntries: 0,
   connectTimeoutMS: 5000
 };
@@ -27,7 +29,7 @@ const spy = create();
 
 spy.log(/^test:/);
 
-const client$ = connectMongoDb(MONGODB_URL, MONGODB_OPTS)
+const client$ = connectMongoDb(new MongoClient(MONGODB_URL, MONGODB_OPTS))
   .pipe(
     tag('test:client'),
     share()
