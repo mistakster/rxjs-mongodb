@@ -1,6 +1,6 @@
 {
   "name": "@mistakster/rxjs-mongodb",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "A helper which creates an Observable from MongoDB connection",
   "main": "lib/connect.js",
   "scripts": {
