@@ -4,7 +4,7 @@
   "description": "A helper which creates an Observable from MongoDB connection",
   "main": "lib/connect.js",
   "scripts": {
-    "test": "node $NODE_DEBUG_OPTION -r dotenv/config ./test/index.js"
+    "test": "node -r dotenv/config ./test/index.js"
   },
   "repository": {
     "type": "git",
@@ -28,7 +28,6 @@
     "node": ">=8.10"
   },
   "peerDependencies": {
-    "mongodb": "^3.0.0",
     "rxjs": "^6.0.0"
   },
   "devDependencies": {
